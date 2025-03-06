@@ -30,16 +30,26 @@ class NoDestructor {
   T& operator*() { return get(); }
   operator T*() { return &get(); }
   operator T&() { return get(); }
+  const T* operator->() const { return &get(); }
+  const T& operator*() const { return get(); }
+  operator const T*() { return &get(); }
+  operator const T&() { return get(); }
 
- private:
-  T& get() {
+  T* get() {
 #ifndef NDEBUG
     assert(initialized_);
 #endif
-    return *std::launder(reinterpret_cast<T*>(storage_));
+    return std::launder(reinterpret_cast<T*>(storage_));
+  }
+  const T* get() const {
+#ifndef NDEBUG
+    assert(initialized_);
+#endif
+    return std::launder(reinterpret_cast<const T*>(storage_));
   }
 
-  alignas(alignof(T)) char storage_[sizeof(T)];
+ private:
+    alignas(alignof(T)) char storage_[sizeof(T)];
 #ifndef NDEBUG
   bool initialized_ = false;
 #endif

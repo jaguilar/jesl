@@ -30,3 +30,10 @@
 *.exe
 *.out
 *.app
+
+managed_components
+build
+test/dependencies.lock
+test/sdkconfig
+.gitignore
+test/sdkconfig.old
