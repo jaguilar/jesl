@@ -2,6 +2,7 @@
 #define JESL_RING_H
 
 #include <array>
+#include <cassert>
 #include <cstdint>
 #include <deque>
 #include <iterator>
@@ -11,7 +12,9 @@ namespace jesl {
 template <typename T, std::size_t N>
 class Ring {
  public:
-  void insert(T&& t) {
+  static constexpr auto size() { return N; }
+
+  void insert(T t) {
     buf_[head_++] = std::move(t);
     if (head_ >= buf_.size()) {
       head_ = 0;
@@ -61,8 +64,23 @@ class Ring {
   const_iterator begin() { return const_iterator(this); }
   const_iterator end() { return const_iterator(); }
 
+  // Returns the most recently inserted element.
+  const T& back() {
+    assert(nset_ > 0);
+    int idx = head_ - 1;
+    if (idx < 0) idx += buf_.size();
+    return buf_[idx];
+  }
+
+  // Returns the least recently inserted element.
+  const T& front() {
+    assert(nset_ > 0);
+    int idx = head_ - nset_;
+    if (idx < 0) idx += buf_.size();
+    return buf_[idx];
+  }
+
  private:
-  // buf_ grows backwards so we can iterator forwards.
   std::array<T, N> buf_;
   int head_ = 0;
   int nset_ = 0;

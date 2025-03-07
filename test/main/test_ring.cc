@@ -17,4 +17,8 @@ TEST_CASE("TestRing") {
   r.insert(8);
   REQUIRE_THAT(to_vec(),
                Catch::Matchers::Equals(std::vector<int>{3, 5, 6, 7, 8}));
+
+  REQUIRE(r.front() == 3);
+  REQUIRE(r.back() == 8);
+  REQUIRE(r.size() == 5);
 }
