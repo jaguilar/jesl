@@ -12,8 +12,15 @@ namespace jesl {
 template <typename T, std::size_t N>
 class Ring {
  public:
-  static constexpr auto size() { return N; }
+  // Returns the number of elements that can be stored.
+  static constexpr auto capacity() { return N; }
 
+  // Returns the number of elements that have been added if less than
+  // capacity(), or else capacity().
+  std::size_t size() const { return nset_; }
+
+  // Inserts one element. If size() == capacity(), overwrites the oldest
+  // element.
   void insert(T t) {
     buf_[head_++] = std::move(t);
     if (head_ >= buf_.size()) {

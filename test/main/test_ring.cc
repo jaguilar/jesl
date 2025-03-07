@@ -7,6 +7,8 @@ TEST_CASE("TestRing") {
   jesl::Ring<int, 5> r;
   r.insert(2);
   r.insert(3);
+  REQUIRE(r.size() == 2);
+  REQUIRE(r.capacity() == 5);
 
   auto to_vec = [&] { return std::vector<int>(r.begin(), r.end()); };
   REQUIRE_THAT(to_vec(), Catch::Matchers::Equals(std::vector<int>{2, 3}));
