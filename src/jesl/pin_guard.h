@@ -5,8 +5,12 @@
 #include <cassert>
 #include <optional>
 
+#ifdef ARDUINO
+#include <Arduino.h>
+#endif
+
 #ifdef ESP32
-#include <esp-hal-gpio.h>
+#include <esp32-hal-gpio.h>
 #endif
 
 namespace jesl {
