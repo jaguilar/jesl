@@ -45,10 +45,10 @@ class PinGuard {
       return *this;
     }
 
-    operator int() const { return pin_; }
-
 #if defined(ESP32)
     operator gpio_num_t() const { return (gpio_num_t)pin_; }
+#else
+    operator int() const { return pin_; }
 #endif
 
    private:
